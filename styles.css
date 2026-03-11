@@ -1,0 +1,65 @@
+/* Configuración del Banner Principal */
+.banner-container {
+    height: 300px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #004d40 100%); /* Colores industriales de mecatrónica */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-bottom: 4px solid #00bfa5;
+}
+
+.banner-content h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Uso de Display Flex para los botones */
+.banner-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Estilo Base de los Botones */
+.btn-task, .btn-project {
+    padding: 12px 25px;
+    border: 2px solid #00bfa5;
+    background: transparent;
+    color: #00bfa5;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Suaviza el efecto hover */
+    border-radius: 5px;
+}
+
+/* Efectos Hover */
+.btn-task:hover {
+    background-color: #00bfa5;
+    color: #1a1a1a;
+    transform: translateY(-3px); /* Pequeño salto hacia arriba */
+    box-shadow: 0 5px 15px rgba(0, 191, 165, 0.4);
+}
+
+.btn-project:hover {
+    background-color: white;
+    border-color: white;
+    color: #004d40;
+    transform: scale(1.05); /* Efecto de aumento */
+}
+
+/* Ajuste para dispositivos móviles */
+@media (max-width: 600px) {
+    .banner-actions {
+        display: block; /* Cambia a bloque para apilar botones en pantallas pequeñas */
+    }
+    .btn-task, .btn-project {
+        margin-bottom: 10px;
+        width: 80%;
+    }
+}
