@@ -1,0 +1,1 @@
+Hola como primer paso estare creando un repositorios git para mantener un control en el cambio de versiones
