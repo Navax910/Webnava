@@ -1,21 +1,229 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Organizador de tareas</title>
+    <title>Bienvenido Halcón</title>
+    <style>
+        /* Restablecemos los márgenes por defecto */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #00a3dd; /* Fondo azul */
+            position: relative; 
+            overflow: hidden; 
+        }
 
-    <link rel="stylesheet" href="style.css">
+        /* Franja naranja superior */
+        .franja-superior {
+            background-color: #ff8c00; 
+            height: 100px; 
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* Franja naranja inferior */
+        .franja-inferior {
+            background-color: #ff8c00; 
+            height: 100px; 
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        /* Contenedor central principal */
+        .contenedor-central {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            transform: translateY(-10%);
+            position: relative;
+            z-index: 10; 
+        }
+
+        /* Estilo del título principal */
+        h1 {
+            color: #ffffff; 
+            font-size: 4rem; 
+            margin-bottom: 40px; 
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); 
+            text-align: center;
+        }
+
+        /* Botón de Ingresar inicial */
+        .boton-ingresar {
+            background-color: #ff8c00; 
+            color: white;
+            font-size: 1.5rem; 
+            font-weight: bold;
+            padding: 20px 80px; 
+            border: none;
+            border-radius: 40px; 
+            cursor: pointer;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3); 
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .boton-ingresar:hover {
+            background-color: #e67e22; 
+            transform: scale(1.05); 
+        }
+
+        /* =========================================
+           ESTILOS DEL FORMULARIO EMERGENTE (MODAL)
+           ========================================= */
+        
+        /* El fondo oscuro que cubre la pantalla */
+        .modal-fondo {
+            display: none; /* Oculto por defecto */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Negro semitransparente */
+            z-index: 20; /* Se pone por encima de todo */
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* La caja blanca del formulario */
+        .modal-contenido {
+            background-color: white;
+            padding: 40px;
+            border-radius: 20px;
+            width: 300px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            position: relative;
+            text-align: center;
+        }
+
+        /* Título dentro del formulario */
+        .modal-contenido h2 {
+            color: #00a3dd; /* Azul del fondo */
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        /* El botón de la "X" para cerrar */
+        .cerrar-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: #aaa;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .cerrar-modal:hover {
+            color: #ff8c00; /* Se vuelve naranja al pasar el ratón */
+        }
+
+        /* Estilos de los textos arriba de cada campo */
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* Estilos de los campos para escribir */
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            box-sizing: border-box; /* Evita que el padding desborde el ancho */
+            font-size: 1rem;
+        }
+
+        /* Cuando el usuario hace clic en el campo */
+        input:focus {
+            border-color: #00a3dd;
+            outline: none;
+        }
+
+        /* Botón dentro del formulario */
+        .boton-formulario {
+            background-color: #ff8c00;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .boton-formulario:hover {
+            background-color: #e67e22;
+        }
+    </style>
 </head>
+<body>
 
-<header class="banner-container">
-    <div class="banner-content">
-        <h1 style="color: blue;">Mecatrónica</h1>
-        <p>Gestión de Tareas y Proyectos Escolares</p>
-        <div class="banner-actions">
-            <button class="btn-task">Nueva Tarea</button>
-            <button class="btn-project">Ver Proyectos</button>
+    <!-- Franja superior -->
+    <div class="franja-superior"></div>
+
+    <!-- Contenido central -->
+    <div class="contenedor-central">
+        <h1>Bienvenido Halcon</h1>
+        <!-- Le añadimos el evento onclick para abrir el formulario -->
+        <button class="boton-ingresar" onclick="abrirFormulario()">Ingresar</button>
+    </div>
+
+    <!-- Franja inferior -->
+    <div class="franja-inferior"></div>
+
+    <!-- =========================================
+         VENTANA EMERGENTE (FORMULARIO)
+         ========================================= -->
+    <div id="miModal" class="modal-fondo">
+        <div class="modal-contenido">
+            <!-- Botón para cerrar -->
+            <span class="cerrar-modal" onclick="cerrarFormulario()">&times;</span>
+            
+            <h2>Iniciar Sesión</h2>
+            
+            <!-- El formulario en sí -->
+            <form onsubmit="event.preventDefault(); alert('Datos enviados. (Aquí luego conectarás tu base de datos)');">
+                
+                <label for="control">Número de control</label>
+                <input type="text" id="control" placeholder="Escribe tu número" required>
+                
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" placeholder="Escribe tu contraseña" required>
+                
+                <button type="submit" class="boton-formulario">Entrar</button>
+            </form>
         </div>
     </div>
-</header>
+
+    <!-- Script de JavaScript para controlar abrir y cerrar la ventana -->
+    <script>
+        // Función para mostrar el formulario
+        function abrirFormulario() {
+            document.getElementById("miModal").style.display = "flex";
+        }
+
+        // Función para ocultar el formulario
+        function cerrarFormulario() {
+            document.getElementById("miModal").style.display = "none";
+        }
+    </script>
+
+</body>
 </html>
